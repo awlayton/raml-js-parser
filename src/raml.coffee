@@ -61,7 +61,8 @@ class @FileReader
         if(xhr.readyState == 4)
           if (typeof xhr.status is 'number' and xhr.status == 200) or
           (typeof xhr.status is 'string' and xhr.status.match /^200/i)
-            deferred.resolve(xhr.responseText)
+            tmp = JSON.parse xhr.responseText
+            deferred.resolve(atob(tmp["content"]))
           else
             deferred.reject(new exports.FileError "while fetching #{file}", null, "cannot fetch #{file} (#{xhr.statusText})", @start_mark)
       xhr.send null
